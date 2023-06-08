@@ -10,9 +10,8 @@ const UserMenu = () => {
             to="/dashboard/user/profile"
             className="list-group-item list-group-item-action"
           >
-            Profile
+            Update Profile
           </NavLink>
-
           <NavLink
             to="/dashboard/user/collection"
             className="list-group-item list-group-item-action"

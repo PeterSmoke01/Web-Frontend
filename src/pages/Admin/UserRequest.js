@@ -75,35 +75,6 @@ const UserRequest = () => {
   //   }
   // };
 
-  // Delete request
-  const handleDeleteReq = async () => {
-    try {
-      const { data } = await axios.delete(
-        `/api/v1/request/requests/${params.slug}`
-      );
-      if (data.success) {
-        Swal.fire({
-          icon: "success",
-          title: "Request deleted successfully!",
-        });
-        navigate("/admin/user-request");
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-      });
-    }
-  };
-
   return (
     <Layout title={"Dashboard - User Request"}>
       <div className="container-fluid m-3 p-3">
@@ -132,12 +103,6 @@ const UserRequest = () => {
                         >
                           <button className="btn btn-primary ms-2">Edit</button>
                         </Link>
-                        <button
-                          className="btn btn-danger ms-2"
-                          onClick={handleDeleteReq}
-                        >
-                          Delete
-                        </button>
                       </td>
                     </tr>
                   ))}

@@ -12,9 +12,6 @@ const UpdateUserRequest = () => {
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [photo, setPhoto] = useState(null);
-  const [description, setDescription] = useState("");
 
   const getSingleReq = async () => {
     try {
@@ -32,7 +29,6 @@ const UpdateUserRequest = () => {
       }
 
       setName(userData.product.name);
-      setQuantity(userData.product.quantity);
       setCategory(userData.product.category);
       console.log(userData);
 
@@ -54,7 +50,6 @@ const UpdateUserRequest = () => {
     try {
       const productData = {
         name,
-        quantity,
         category,
         // Add other properties as needed (e.g., photo, description)
       };
@@ -92,6 +87,36 @@ const UpdateUserRequest = () => {
   //   });
   //   navigate("/admin/products");
   // };
+
+  // Delete request
+  const handleDeleteReq = async () => {
+    try {
+      const { data } = await axios.delete(
+        `/api/v1/request/users-request/${params.slug}`
+      );
+      if (data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Request deleted successfully!",
+        });
+        navigate("/admin/user-request");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+    }
+  };
+
   //get all category
   const getAllCategories = async () => {
     try {
@@ -142,30 +167,6 @@ const UpdateUserRequest = () => {
                 ))}
               </Select>
               <div className="mb-3">
-                <label className="btn btn-outline-secondary col-md-12">
-                  {photo ? photo.name : "Upload Images"}
-                  <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={(e) => setPhoto(e.target.files[0])}
-                    hidden
-                  />
-                </label>
-              </div>
-              <div className="mb-3">
-                {photo && (
-                  <div className="text-center">
-                    <img
-                      src={URL.createObjectURL(photo)}
-                      alt="product_photo"
-                      height={"200px"}
-                      className="img img-responsive"
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="mb-3">
                 <input
                   type="text"
                   value={name}
@@ -174,18 +175,12 @@ const UpdateUserRequest = () => {
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-              <div className="mb-3">
-                <input
-                  type="number"
-                  value={quantity}
-                  placeholder="write a quantity"
-                  className="form-control"
-                  onChange={(e) => setQuantity(e.target.value)}
-                />
-              </div>
               <div className="mb-3" onClick={postProduct}>
                 <button className="btn btn-primary">UPDATE PRODUCT</button>
               </div>
+              <button className="btn btn-danger ms-2" onClick={handleDeleteReq}>
+                Delete
+              </button>
             </div>
           </div>
         </div>
